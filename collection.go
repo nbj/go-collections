@@ -1,18 +1,14 @@
 package Nbj
 
-import (
-	"slices"
-)
-
 // Collection
 // The general structure of a collection
-type Collection[T comparable] struct {
+type Collection[T any] struct {
 	items []T
 }
 
 // NewCollection
 // Named constructor to create a new collection
-func NewCollection[T comparable]() *Collection[T] {
+func NewCollection[T any]() *Collection[T] {
 	var collection Collection[T]
 
 	return &collection
@@ -20,7 +16,7 @@ func NewCollection[T comparable]() *Collection[T] {
 
 // Collect
 // Named constructor to create a new collection from a slice
-func Collect[T comparable](items []T) *Collection[T] {
+func Collect[T any](items []T) *Collection[T] {
 	var collection Collection[T]
 	collection.Fill(items)
 
@@ -117,9 +113,15 @@ func (collection *Collection[T]) Merge(collectionToMerge *Collection[T]) *Collec
 }
 
 // Contains
-// Checks if the collection contains a specific item
-func (collection *Collection[T]) Contains(search T) bool {
-	return slices.Contains(collection.items, search)
+// Checks if the collection contains a specific item based on a closure
+func (collection *Collection[T]) Contains(closure func(item T) bool) bool {
+	for _, item := range collection.items {
+		if closure(item) {
+			return true
+		}
+	}
+
+	return false
 }
 
 // ForEach

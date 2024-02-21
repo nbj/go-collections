@@ -186,7 +186,9 @@ func Test_a_collection_knows_if_it_contains_a_specific_item(t *testing.T) {
 	})
 
 	// Assert
-	assert.True(t, collection.Contains("middle"))
+	assert.True(t, collection.Contains(func(item string) bool {
+		return item == "middle"
+	}))
 }
 
 func Test_a_collection_can_iterate_over_all_it_items(t *testing.T) {
@@ -199,7 +201,9 @@ func Test_a_collection_can_iterate_over_all_it_items(t *testing.T) {
 
 	// Assert
 	collection.ForEach(func(item string) {
-		assert.True(t, collection.Contains(item))
+		assert.True(t, collection.Contains(func(innerItem string) bool {
+			return item == innerItem
+		}))
 	})
 }
 
@@ -239,7 +243,9 @@ func Test_a_collections_items_can_be_filtered_using_a_closure(t *testing.T) {
 		"last",
 	})
 
-	assert.True(t, collection.Contains("middle"))
+	assert.True(t, collection.Contains(func(item string) bool {
+		return item == "middle"
+	}))
 
 	// Act
 	collection = collection.Filter(func(item string) bool {
@@ -247,7 +253,9 @@ func Test_a_collections_items_can_be_filtered_using_a_closure(t *testing.T) {
 	})
 
 	// Assert
-	assert.False(t, collection.Contains("middle"))
+	assert.False(t, collection.Contains(func(item string) bool {
+		return item == "middle"
+	}))
 }
 
 func Test_a_collections_items_can_be_rejected_using_a_closure(t *testing.T) {
@@ -258,7 +266,9 @@ func Test_a_collections_items_can_be_rejected_using_a_closure(t *testing.T) {
 		"last",
 	})
 
-	assert.True(t, collection.Contains("middle"))
+	assert.True(t, collection.Contains(func(item string) bool {
+		return item == "middle"
+	}))
 
 	// Act
 	collection = collection.Reject(func(item string) bool {
@@ -266,7 +276,9 @@ func Test_a_collections_items_can_be_rejected_using_a_closure(t *testing.T) {
 	})
 
 	// Assert
-	assert.False(t, collection.Contains("middle"))
+	assert.False(t, collection.Contains(func(item string) bool {
+		return item == "middle"
+	}))
 }
 
 func Test_a_collections_items_can_be_mapped_into_something_else(t *testing.T) {
@@ -283,7 +295,10 @@ func Test_a_collections_items_can_be_mapped_into_something_else(t *testing.T) {
 	})
 
 	// Assert
-	assert.True(t, lengths.Contains(6))
+	assert.True(t, lengths.Contains(func(item any) bool {
+		return item == 6
+	}))
+
 	assert.Equal(t, 5, lengths.First())
 	assert.Equal(t, 4, lengths.Last())
 }
