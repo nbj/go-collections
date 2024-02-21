@@ -268,3 +268,22 @@ func Test_a_collections_items_can_be_rejected_using_a_closure(t *testing.T) {
 	// Assert
 	assert.False(t, collection.Contains("middle"))
 }
+
+func Test_a_collections_items_can_be_mapped_into_something_else(t *testing.T) {
+	// Arrange
+	collection := Collect[string]([]string{
+		"first",
+		"middle",
+		"last",
+	})
+
+	// Act
+	lengths := collection.Map(func(item string) any {
+		return len(item)
+	})
+
+	// Assert
+	assert.True(t, lengths.Contains(6))
+	assert.Equal(t, 5, lengths.First())
+	assert.Equal(t, 4, lengths.Last())
+}

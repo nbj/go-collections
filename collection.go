@@ -169,3 +169,13 @@ func (collection *Collection[T]) Reject(closure func(item T) bool) *Collection[T
 
 	return &filteredCollection
 }
+
+func (collection *Collection[T]) Map(closure func(item T) any) *Collection[any] {
+	var mappedCollection Collection[any]
+
+	for _, item := range collection.items {
+		mappedCollection.Add(closure(item))
+	}
+
+	return &mappedCollection
+}
