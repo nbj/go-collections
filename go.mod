@@ -1,4 +1,4 @@
-module github.com/nbj/collections
+module github.com/nbj/go-collections
 
 go 1.21.6
 
