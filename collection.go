@@ -33,6 +33,12 @@ func (collection *Collection[T]) All() []T {
 	return collection.items
 }
 
+// ToArray
+// This is simply an alias for All()
+func (collection *Collection[T]) ToArray() []T {
+	return collection.All()
+}
+
 // Fill
 // Fills the collection with a slice of items
 func (collection *Collection[T]) Fill(items []T) *Collection[T] {
