@@ -199,8 +199,10 @@ func (collection *Collection[T]) Pluck(field string) *Collection[any] {
 		value := reflect.Indirect(reflection).FieldByName(field)
 
 		switch value.Type().String() {
-		case "int", "int8", "int16", "int32", "int64", "uint", "uint8", "uint16", "uint32", "uint64":
+		case "int", "int8", "int16", "int32", "int64":
 			pluckedCollection.Add(int(value.Int()))
+		case "uint", "uint8", "uint16", "uint32", "uint64":
+			pluckedCollection.Add(uint(value.Uint()))
 		case "float32", "float64":
 			pluckedCollection.Add(value.Float())
 		default:
