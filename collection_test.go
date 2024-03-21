@@ -323,6 +323,25 @@ func Test_a_collection_can_pluck_specific_fields_of_its_containing_items(t *test
 	assert.Equal(t, "Charlie", collectionB.Last())
 }
 
+func Test_a_collection_can_return_all_its_items_as_an_array(t *testing.T) {
+	// Arrange
+	var objects []TestObject
+
+	objects = append(objects, TestObject{Id: 1, Name: "John"})
+	objects = append(objects, TestObject{Id: 2, Name: "Jane"})
+	objects = append(objects, TestObject{Id: 3, Name: "Charlie"})
+
+	collection := Collect(objects)
+
+	// Act
+	items := collection.All()
+
+	// Assert
+	assert.Equal(t, "[]Nbj.TestObject", reflect.TypeOf(items).String())
+	assert.Equal(t, 1, items[0].Id)
+	assert.Equal(t, "John", items[0].Name)
+}
+
 type TestObject struct {
 	Id   int
 	Name string

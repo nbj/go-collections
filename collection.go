@@ -27,6 +27,12 @@ func Collect[T any](items []T) *Collection[T] {
 	return &collection
 }
 
+// All
+// Returns all the items in the collection as an array
+func (collection *Collection[T]) All() []T {
+	return collection.items
+}
+
 // Fill
 // Fills the collection with a slice of items
 func (collection *Collection[T]) Fill(items []T) *Collection[T] {
