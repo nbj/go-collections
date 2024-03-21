@@ -302,3 +302,28 @@ func Test_a_collections_items_can_be_mapped_into_something_else(t *testing.T) {
 	assert.Equal(t, 5, lengths.First())
 	assert.Equal(t, 4, lengths.Last())
 }
+
+func Test_a_collection_can_pluck_specific_fields_of_its_containing_items(t *testing.T) {
+	// Arrange
+	var objects []TestObject
+
+	objects = append(objects, TestObject{Id: 1, Name: "John"})
+	objects = append(objects, TestObject{Id: 2, Name: "Jane"})
+	objects = append(objects, TestObject{Id: 3, Name: "Charlie"})
+
+	// Act
+	collectionA := Collect(objects).Pluck("Id")
+	collectionB := Collect(objects).Pluck("Name")
+
+	// Assert
+	assert.Equal(t, 1, collectionA.First())
+	assert.Equal(t, 3, collectionA.Last())
+
+	assert.Equal(t, "John", collectionB.First())
+	assert.Equal(t, "Charlie", collectionB.Last())
+}
+
+type TestObject struct {
+	Id   int
+	Name string
+}

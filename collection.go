@@ -1,5 +1,9 @@
 package Nbj
 
+import (
+	"reflect"
+)
+
 // Collection
 // The general structure of a collection
 type Collection[T any] struct {
@@ -172,6 +176,9 @@ func (collection *Collection[T]) Reject(closure func(item T) bool) *Collection[T
 	return &filteredCollection
 }
 
+// Map
+// Maps all items in a collection into something different and
+// returns a new collection containing the mapped items
 func (collection *Collection[T]) Map(closure func(item T) any) *Collection[any] {
 	var mappedCollection Collection[any]
 
@@ -180,4 +187,26 @@ func (collection *Collection[T]) Map(closure func(item T) any) *Collection[any] 
 	}
 
 	return &mappedCollection
+}
+
+// Pluck
+// Returns a new collection containing only the field pluck from each item
+func (collection *Collection[T]) Pluck(field string) *Collection[any] {
+	var pluckedCollection Collection[any]
+
+	for _, item := range collection.items {
+		reflection := reflect.ValueOf(item)
+		value := reflect.Indirect(reflection).FieldByName(field)
+
+		switch value.Type().String() {
+		case "int", "int8", "int16", "int32", "int64", "uint", "uint8", "uint16", "uint32", "uint64":
+			pluckedCollection.Add(int(value.Int()))
+		case "float32", "float64":
+			pluckedCollection.Add(value.Float())
+		default:
+			pluckedCollection.Add(value.String())
+		}
+	}
+
+	return &pluckedCollection
 }
