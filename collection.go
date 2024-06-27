@@ -45,6 +45,18 @@ func (collection *Collection[T]) IndexOf(searchItem T) int {
 	return -1
 }
 
+// IndexOfFunc
+// Gets the index of a specific item in the collection based on a closure
+func (collection *Collection[T]) IndexOfFunc(closure func(item T) bool) int {
+	for index, item := range collection.Items {
+		if closure(item) {
+			return index
+		}
+	}
+
+	return -1
+}
+
 // All
 // Returns all the Items in the collection as an array
 func (collection *Collection[T]) All() []T {

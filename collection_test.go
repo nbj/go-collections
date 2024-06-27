@@ -360,7 +360,7 @@ func Test_a_collection_can_return_a_specific_item_based_on_its_index_in_the_coll
 	assert.Equal(t, "Jane", object.Name)
 }
 
-func Test_a_collection_can_return_an_index_of_a_specific_item_based_on_a_closure_passed(t *testing.T) {
+func Test_a_collection_can_return_an_index_of_a_specific_item(t *testing.T) {
 	// Arrange
 	var objects []TestObject
 
@@ -376,6 +376,25 @@ func Test_a_collection_can_return_an_index_of_a_specific_item_based_on_a_closure
 
 	// Assert
 	assert.Equal(t, 2, index)
+}
+
+func Test_a_collection_can_return_an_index_of_a_specific_item_based_on_a_closure_passed(t *testing.T) {
+	// Arrange
+	var objects []TestObject
+
+	objects = append(objects, TestObject{Id: 1, Name: "John"})
+	objects = append(objects, TestObject{Id: 2, Name: "Jane"})
+	objects = append(objects, TestObject{Id: 3, Name: "Charlie"})
+
+	collection := Collect(objects)
+
+	// Act
+	index := collection.IndexOfFunc(func(item TestObject) bool {
+		return item.Name == "Jane"
+	})
+
+	// Assert
+	assert.Equal(t, 1, index)
 }
 
 func Test_a_collection_can_return_minus_one_if_index_of_could_not_find_the_specific_item(t *testing.T) {
