@@ -27,6 +27,24 @@ func Collect[T any](items []T) *Collection[T] {
 	return &collection
 }
 
+// Get
+// Returns the Item at a specific index in the collection
+func (collection *Collection[T]) Get(index int) T {
+	return collection.Items[index]
+}
+
+// IndexOf
+// Gets the index of a specific item in the collection
+func (collection *Collection[T]) IndexOf(searchItem T) int {
+	for index, item := range collection.Items {
+		if reflect.DeepEqual(item, searchItem) {
+			return index
+		}
+	}
+
+	return -1
+}
+
 // All
 // Returns all the Items in the collection as an array
 func (collection *Collection[T]) All() []T {
