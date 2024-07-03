@@ -413,6 +413,26 @@ func Test_a_collection_can_return_minus_one_if_index_of_could_not_find_the_speci
 	assert.Equal(t, -1, index)
 }
 
+func Test_a_collection_can_sum_number_values(t *testing.T) {
+	// Arrange
+	integerCollection := Collection.Collect([]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10})
+	floatCollection := Collection.Collect([]float64{1.1, 2.2, 3.3, 4.4, 5.5, 6.6, 7.7, 8.8, 9.9, 10.10})
+
+	// Assert
+	assert.Equal(t, 55, integerCollection.Sum())
+	assert.Equal(t, 59.6, floatCollection.Sum())
+}
+
+func Test_a_collection_can_average_number_values(t *testing.T) {
+	// Arrange
+	integerCollection := Collection.Collect([]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10})
+	floatCollection := Collection.Collect([]float64{1.1, 2.2, 3.3, 4.4, 5.5, 6.6, 7.7, 8.8, 9.9, 10.10})
+
+	// Assert
+	assert.Equal(t, 5.0, integerCollection.Average())
+	assert.Equal(t, 5.96, floatCollection.Average())
+}
+
 type TestObject struct {
 	Id   int
 	Name string

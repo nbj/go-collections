@@ -1,6 +1,7 @@
 package Collection
 
 import (
+	"github.com/nbj/go-support/Support"
 	"reflect"
 )
 
@@ -253,4 +254,68 @@ func (collection *Collection[T]) Pluck(field string) *Collection[any] {
 	}
 
 	return &pluckedCollection
+}
+
+func (collection *Collection[T]) Sum() any {
+	itemType := reflect.TypeOf(collection.First()).String()
+
+	switch itemType {
+	case "int", "int8", "int16", "int32", "int64":
+		fallthrough
+	case "uint", "uint8", "uint16", "uint32", "uint64":
+		var sum int
+
+		for _, item := range collection.Items {
+			integerItem := Support.Cast[int](item)
+			sum += integerItem
+		}
+
+		return sum
+	case "float32", "float64":
+		var sum float64
+
+		for _, item := range collection.Items {
+			floatItem := Support.Cast[float64](item)
+			sum += floatItem
+		}
+
+		return sum
+	default:
+		return nil
+	}
+}
+
+func (collection *Collection[T]) Average() any {
+	itemType := reflect.TypeOf(collection.First()).String()
+
+	switch itemType {
+	case "int", "int8", "int16", "int32", "int64":
+		fallthrough
+	case "uint", "uint8", "uint16", "uint32", "uint64":
+		var sum int
+		var average float64
+
+		for _, item := range collection.Items {
+			integerItem := Support.Cast[int](item)
+			sum += integerItem
+		}
+
+		average = float64(sum / collection.Count())
+
+		return average
+	case "float32", "float64":
+		var sum float64
+		var average float64
+
+		for _, item := range collection.Items {
+			floatItem := Support.Cast[float64](item)
+			sum += floatItem
+		}
+
+		average = sum / float64(collection.Count())
+
+		return average
+	default:
+		return nil
+	}
 }
