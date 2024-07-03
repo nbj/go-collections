@@ -1,4 +1,4 @@
-package Nbj
+package Collection
 
 import (
 	"reflect"
@@ -10,9 +10,9 @@ type Collection[T any] struct {
 	Items []T `json:"items"`
 }
 
-// NewCollection
+// New
 // Named constructor to create a new collection
-func NewCollection[T any]() *Collection[T] {
+func New[T any]() *Collection[T] {
 	var collection Collection[T]
 
 	return &collection

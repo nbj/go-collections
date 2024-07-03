@@ -1,6 +1,7 @@
-package Nbj
+package Feature
 
 import (
+	"github.com/nbj/go-collections/Collection"
 	"github.com/stretchr/testify/assert"
 	"reflect"
 	"testing"
@@ -8,15 +9,15 @@ import (
 
 func Test_a_collection_can_be_created_with_a_type_items(t *testing.T) {
 	// Act
-	collection := NewCollection[int]()
+	collection := Collection.New[int]()
 
 	// Assert
-	assert.Equal(t, "*Nbj.Collection[int]", reflect.TypeOf(collection).String())
+	assert.Equal(t, "*Collection.Collection[int]", reflect.TypeOf(collection).String())
 }
 
 func Test_a_collection_knows_if_it_is_empty(t *testing.T) {
 	// Arrange
-	collection := NewCollection[int]()
+	collection := Collection.New[int]()
 
 	// Assert
 	assert.True(t, collection.IsEmpty())
@@ -24,7 +25,7 @@ func Test_a_collection_knows_if_it_is_empty(t *testing.T) {
 
 func Test_a_collection_can_have_items_added_to_it(t *testing.T) {
 	// Arrange
-	collection := NewCollection[int]()
+	collection := Collection.New[int]()
 	assert.True(t, collection.IsEmpty())
 
 	// Act
@@ -36,7 +37,7 @@ func Test_a_collection_can_have_items_added_to_it(t *testing.T) {
 
 func Test_a_collection_knows_how_many_items_it_is_storing(t *testing.T) {
 	// Arrange
-	collection := NewCollection[int]()
+	collection := Collection.New[int]()
 	assert.Equal(t, 0, collection.Count())
 
 	// Act
@@ -49,7 +50,7 @@ func Test_a_collection_knows_how_many_items_it_is_storing(t *testing.T) {
 
 func Test_a_collection_can_get_its_first_item(t *testing.T) {
 	// Arrange
-	collection := NewCollection[string]()
+	collection := Collection.New[string]()
 	collection.Add("first")
 	collection.Add("middle")
 	collection.Add("last")
@@ -63,7 +64,7 @@ func Test_a_collection_can_get_its_first_item(t *testing.T) {
 
 func Test_a_collection_can_get_its_last_item(t *testing.T) {
 	// Arrange
-	collection := NewCollection[string]()
+	collection := Collection.New[string]()
 	collection.Add("first")
 	collection.Add("middle")
 	collection.Add("last")
@@ -77,7 +78,7 @@ func Test_a_collection_can_get_its_last_item(t *testing.T) {
 
 func Test_a_collection_can_shift_its_first_item_of_it(t *testing.T) {
 	// Arrange
-	collection := NewCollection[string]()
+	collection := Collection.New[string]()
 	collection.Add("first")
 	collection.Add("middle")
 	collection.Add("last")
@@ -95,7 +96,7 @@ func Test_a_collection_can_shift_its_first_item_of_it(t *testing.T) {
 
 func Test_a_collection_can_pop_its_last_item_of_it(t *testing.T) {
 	// Arrange
-	collection := NewCollection[string]()
+	collection := Collection.New[string]()
 	collection.Add("first")
 	collection.Add("middle")
 	collection.Add("last")
@@ -113,7 +114,7 @@ func Test_a_collection_can_pop_its_last_item_of_it(t *testing.T) {
 
 func Test_a_collection_can_be_filled_with_a_slice_containing_elements_of_the_collection_type(t *testing.T) {
 	// Arrange
-	collection := NewCollection[string]()
+	collection := Collection.New[string]()
 	assert.Equal(t, 0, collection.Count())
 
 	sliceOfString := []string{
@@ -133,7 +134,7 @@ func Test_a_collection_can_be_filled_with_a_slice_containing_elements_of_the_col
 
 func Test_a_collection_can_be_merged_with_another_collection_containing_items_of_the_same_type(t *testing.T) {
 	// Arrange
-	collectionA := NewCollection[string]()
+	collectionA := Collection.New[string]()
 	collectionA.Fill([]string{
 		"first",
 		"second",
@@ -141,7 +142,7 @@ func Test_a_collection_can_be_merged_with_another_collection_containing_items_of
 
 	assert.Equal(t, 2, collectionA.Count())
 
-	collectionB := NewCollection[string]()
+	collectionB := Collection.New[string]()
 	collectionB.Fill([]string{
 		"third",
 		"fourth",
@@ -168,10 +169,10 @@ func Test_a_collection_can_be_created_from_a_slice(t *testing.T) {
 	}
 
 	// Act
-	collection := Collect[string](slice)
+	collection := Collection.Collect[string](slice)
 
 	// Assert
-	assert.Equal(t, "*Nbj.Collection[string]", reflect.TypeOf(collection).String())
+	assert.Equal(t, "*Collection.Collection[string]", reflect.TypeOf(collection).String())
 	assert.Equal(t, 3, collection.Count())
 	assert.Equal(t, "first", collection.First())
 	assert.Equal(t, "last", collection.Last())
@@ -179,7 +180,7 @@ func Test_a_collection_can_be_created_from_a_slice(t *testing.T) {
 
 func Test_a_collection_knows_if_it_contains_a_specific_item(t *testing.T) {
 	// Arrange
-	collection := Collect[string]([]string{
+	collection := Collection.Collect[string]([]string{
 		"first",
 		"middle",
 		"last",
@@ -193,7 +194,7 @@ func Test_a_collection_knows_if_it_contains_a_specific_item(t *testing.T) {
 
 func Test_a_collection_can_iterate_over_all_it_items(t *testing.T) {
 	// Arrange
-	collection := Collect[string]([]string{
+	collection := Collection.Collect[string]([]string{
 		"first",
 		"middle",
 		"last",
@@ -209,7 +210,7 @@ func Test_a_collection_can_iterate_over_all_it_items(t *testing.T) {
 
 func Test_a_collection_can_be_reduced(t *testing.T) {
 	// Arrange
-	collection := Collect[int]([]int{1, 2, 3, 4, 5})
+	collection := Collection.Collect[int]([]int{1, 2, 3, 4, 5})
 
 	// Act - Implement Sum() using Reduce()
 	sum := collection.Reduce(func(carry any, item int) any {
@@ -223,21 +224,21 @@ func Test_a_collection_can_be_reduced(t *testing.T) {
 
 	// Act - Implement Reverse() using Reduce()
 	reversed := collection.Reduce(func(carry any, item int) any {
-		carry = carry.(*Collection[int]).Prepend(item)
+		carry = carry.(*Collection.Collection[int]).Prepend(item)
 
 		return carry
-	}, NewCollection[int]())
+	}, Collection.New[int]())
 
 	// Assert
 	assert.Equal(t, 1, collection.First())
 	assert.Equal(t, 5, collection.Last())
-	assert.Equal(t, 5, reversed.(*Collection[int]).First())
-	assert.Equal(t, 1, reversed.(*Collection[int]).Last())
+	assert.Equal(t, 5, reversed.(*Collection.Collection[int]).First())
+	assert.Equal(t, 1, reversed.(*Collection.Collection[int]).Last())
 }
 
 func Test_a_collections_items_can_be_filtered_using_a_closure(t *testing.T) {
 	// Arrange
-	collection := Collect[string]([]string{
+	collection := Collection.Collect[string]([]string{
 		"first",
 		"middle",
 		"last",
@@ -260,7 +261,7 @@ func Test_a_collections_items_can_be_filtered_using_a_closure(t *testing.T) {
 
 func Test_a_collections_items_can_be_rejected_using_a_closure(t *testing.T) {
 	// Arrange
-	collection := Collect[string]([]string{
+	collection := Collection.Collect[string]([]string{
 		"first",
 		"middle",
 		"last",
@@ -283,7 +284,7 @@ func Test_a_collections_items_can_be_rejected_using_a_closure(t *testing.T) {
 
 func Test_a_collections_items_can_be_mapped_into_something_else(t *testing.T) {
 	// Arrange
-	collection := Collect[string]([]string{
+	collection := Collection.Collect[string]([]string{
 		"first",
 		"middle",
 		"last",
@@ -312,8 +313,8 @@ func Test_a_collection_can_pluck_specific_fields_of_its_containing_items(t *test
 	objects = append(objects, TestObject{Id: 3, Name: "Charlie"})
 
 	// Act
-	collectionA := Collect(objects).Pluck("Id")
-	collectionB := Collect(objects).Pluck("Name")
+	collectionA := Collection.Collect(objects).Pluck("Id")
+	collectionB := Collection.Collect(objects).Pluck("Name")
 
 	// Assert
 	assert.Equal(t, 1, collectionA.First())
@@ -331,13 +332,13 @@ func Test_a_collection_can_return_all_its_items_as_an_array(t *testing.T) {
 	objects = append(objects, TestObject{Id: 2, Name: "Jane"})
 	objects = append(objects, TestObject{Id: 3, Name: "Charlie"})
 
-	collection := Collect(objects)
+	collection := Collection.Collect(objects)
 
 	// Act
 	items := collection.All()
 
 	// Assert
-	assert.Equal(t, "[]Nbj.TestObject", reflect.TypeOf(items).String())
+	assert.Equal(t, "[]Feature.TestObject", reflect.TypeOf(items).String())
 	assert.Equal(t, 1, items[0].Id)
 	assert.Equal(t, "John", items[0].Name)
 }
@@ -350,7 +351,7 @@ func Test_a_collection_can_return_a_specific_item_based_on_its_index_in_the_coll
 	objects = append(objects, TestObject{Id: 2, Name: "Jane"})
 	objects = append(objects, TestObject{Id: 3, Name: "Charlie"})
 
-	collection := Collect(objects)
+	collection := Collection.Collect(objects)
 
 	// Act
 	object := collection.Get(1)
@@ -368,7 +369,7 @@ func Test_a_collection_can_return_an_index_of_a_specific_item(t *testing.T) {
 	objects = append(objects, TestObject{Id: 2, Name: "Jane"})
 	objects = append(objects, TestObject{Id: 3, Name: "Charlie"})
 
-	collection := Collect(objects)
+	collection := Collection.Collect(objects)
 	object := TestObject{Id: 3, Name: "Charlie"}
 
 	// Act
@@ -386,7 +387,7 @@ func Test_a_collection_can_return_an_index_of_a_specific_item_based_on_a_closure
 	objects = append(objects, TestObject{Id: 2, Name: "Jane"})
 	objects = append(objects, TestObject{Id: 3, Name: "Charlie"})
 
-	collection := Collect(objects)
+	collection := Collection.Collect(objects)
 
 	// Act
 	index := collection.IndexOfFunc(func(item TestObject) bool {
@@ -401,7 +402,7 @@ func Test_a_collection_can_return_minus_one_if_index_of_could_not_find_the_speci
 	// Arrange
 	var objects []TestObject
 
-	collection := Collect(objects)
+	collection := Collection.Collect(objects)
 
 	object := TestObject{Id: 1, Name: "John"}
 
